@@ -8,7 +8,7 @@ def moveFilesToDestiny(extensions_list, sourcePath, destinyPath):
         for files in os.listdir(sourcePath):
             sourcePathFile = sourcePath+'/'+files
             if ext in files:
-                destinyPathFile = destinyPath+'/'+files
+                destinyPathFile = destinyPath+'/'+ext+'/'+files
                 shutil.move(sourcePathFile, destinyPathFile)
                 print(files+" moved")
 
