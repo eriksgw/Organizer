@@ -3,15 +3,16 @@ import re
 import sys
 import shutil
 
-def moveFileToDest(ext, sourcePath, destinyPath):
-    for files in os.listdir(sourcePath):
-        sourcePathFile = sourcePath+'/'+files
-        if ext in files:
-            destinyPathFile = destinyPath+'/'+files
-            shutil.move(sourcePathFile, destinyPathFile)
-            print(files+" moved")
+def moveFilesToDestiny(extensions_list, sourcePath, destinyPath):
+    for ext in extensions_list:
+        for files in os.listdir(sourcePath):
+            sourcePathFile = sourcePath+'/'+files
+            if ext in files:
+                destinyPathFile = destinyPath+'/'+files
+                shutil.move(sourcePathFile, destinyPathFile)
+                print(files+" moved")
 
-def getAllExt(sourcePath):
+def getAllExtensionsFrom(sourcePath):
 
     ext_list = []
     for files in os.listdir(sourcePath):
@@ -22,26 +23,30 @@ def getAllExt(sourcePath):
 
     return ext_list
 
+def createFolderExt(extensions_list, directoryOrganizer):
+    for ext in extensions_list:
+        directoryOrganizerExt = directoryOrganizer+'/'+ext
+        if not os.path.exists(directoryOrganizerExt):
+            os.mkdir(directoryOrganizerExt)
+        else:
+            print(ext+" folder already created")
+
+def startOrganizerProcediments(directoryPath, directoryOrganizer):
+     extensions_list = getAllExtensionsFrom(directoryPath)
+     createFolderExt(extensions_list, directoryOrganizer)
+     moveFilesToDestiny(extensions_list, directoryPath, directoryOrganizer)
+
 
 def main():
     directoryPath = input('Insert your directory path:')
     directoryOrganizer = directoryPath+'/Organizer'
-    if not os.path.exists(directoryPath):
+    if not os.path.exists(directoryOrganizer):
         os.mkdir(directoryOrganizer)
-        print("Organizer folder created")
-
+        print("Organizer folder created. Starting...")
+        startOrganizerProcediments(directoryPath, directoryOrganizer)
     else:
         print("Starting...")
-        extension_list = getAllExt(directoryPath)
-        for ext in extension_list:
-            directoryOrganizerExt = directoryOrganizer+'/'+ext
-            if not os.path.exists(directoryOrganizerExt):
-                os.mkdir(directoryOrganizerExt)
-            else:
-                print(ext+"folder already created")
-
-        for ext in extension_list:
-           moveFileToDest(ext,directoryPath,directoryOrganizerExt)
+        startOrganizerProcediments(directoryPath, directoryOrganizer)
 
 
 main()
