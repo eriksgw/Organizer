@@ -17,9 +17,8 @@ def getAllExtensionsFrom(sourcePath):
     ext_list = []
     for files in os.listdir(sourcePath):
         extension = os.path.splitext(files)[1]
-        if not extension in ext_list:
-            if not extension == '':
-                ext_list.append(extension)
+        if not extension in ext_list and extension != '':
+            ext_list.append(extension)
 
     return ext_list
 
