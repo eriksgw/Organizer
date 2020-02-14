@@ -1,7 +1,23 @@
+import pandas as pd
+from pandas import Series, DataFrame
+import matplotlib.pyplot as plt
 import os
 import re
 import sys
 import shutil
+
+def createDatasheet(organizerPath):
+    subdirectories = []
+    subdirectoriesNumFiles = []
+    for directory in os.listdir(organizerPath):
+        subdirectories.append(directory)
+        subdirectoryPath = organizerPath+'/'+directory
+        subdirectoriesNumFiles.append(len(os.listdir(subdirectoryPath)))
+        print(subdirectoriesNumFiles)
+        print(len(os.listdir(subdirectoryPath)))
+    obj = Series(subdirectoriesNumFiles, index = subdirectories)
+    obj.plot.bar()
+    plt.show()
 
 def moveFilesToDestiny(extensions_list, sourcePath, destinyPath):
     for ext in extensions_list:
@@ -34,7 +50,7 @@ def startOrganizerProcediments(directoryPath, directoryOrganizer):
      extensions_list = getAllExtensionsFrom(directoryPath)
      createFolderExt(extensions_list, directoryOrganizer)
      moveFilesToDestiny(extensions_list, directoryPath, directoryOrganizer)
-
+     createDatasheet(directoryOrganizer)
 
 def main():
     directoryPath = input('Insert your directory path:')
