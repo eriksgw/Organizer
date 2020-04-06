@@ -6,64 +6,52 @@ import re
 import sys
 import shutil
 
-def createDatasheet(organizerPath):
-    subdirectories = []
-    subdirectoriesNumFiles = []
-    for directory in os.listdir(organizerPath):
-        subdirectories.append(directory)
-        subdirectoryPath = organizerPath+'/'+directory
-        subdirectoriesNumFiles.append(len(os.listdir(subdirectoryPath)))
-        print(subdirectoriesNumFiles)
-        print(len(os.listdir(subdirectoryPath)))
-    obj = Series(subdirectoriesNumFiles, index = subdirectories)
-    obj.plot.bar()
-    plt.show()
 
-def moveFilesToDestiny(extensions_list, sourcePath, destinyPath):
-    for ext in extensions_list:
-        for files in os.listdir(sourcePath):
-            sourcePathFile = sourcePath+'/'+files
+def move_files_destiny(extensions, source_path, destiny_path):
+    for ext in extensions:
+        for files in os.listdir(source_path):
+            source_path_file = source_path+'/'+files
             if ext in files:
-                destinyPathFile = destinyPath+'/'+ext+'/'+files
-                shutil.move(sourcePathFile, destinyPathFile)
+                destiny_path_file = destiny_path+'/'+ext+'/'+files
+                shutil.move(source_path_file, destiny_path_file)
                 print(files+" moved")
 
-def getAllExtensionsFrom(sourcePath):
-
+def get_all_extension_from(source_path):
     ext_list = []
-    for files in os.listdir(sourcePath):
+    for files in os.listdir(source_path):
         extension = os.path.splitext(files)[1]
-        if not extension in ext_list and extension != '':
+        if extension not in ext_list and extension != '':
             ext_list.append(extension)
 
     return ext_list
 
-def createFolderExt(extensions_list, directoryOrganizer):
-    for ext in extensions_list:
-        directoryOrganizerExt = directoryOrganizer+'/'+ext
-        if not os.path.exists(directoryOrganizerExt):
-            os.mkdir(directoryOrganizerExt)
+def create_folder_ext(extensions, dir_organizer):
+    for ext in extensions:
+        directory_organizer_ext = dir_organizer+'/'+ext
+        if not os.path.exists(directory_organizer_ext):
+            os.mkdir(directory_organizer_ext)
         else:
             print(ext+" folder already created")
 
-def startOrganizerProcediments(directoryPath, directoryOrganizer):
-     extensions_list = getAllExtensionsFrom(directoryPath)
-     createFolderExt(extensions_list, directoryOrganizer)
-     moveFilesToDestiny(extensions_list, directoryPath, directoryOrganizer)
-     createDatasheet(directoryOrganizer)
+def start_organizer_procediments(dir_path, dir_organizer):
+    extensions = get_all_extension_from(dir_path)
+    create_folder_ext(extensions, dir_organizer)
+    move_files_destiny(extensions, dir_path, dir_organizer)
 
 def main():
-    directoryPath = input('Insert your directory path:')
-    directoryOrganizer = directoryPath+'/Organizer'
-    if not os.path.exists(directoryOrganizer):
-        os.mkdir(directoryOrganizer)
+    dir_path = input('Insert your directory path:')
+    dir_organizer = dir_path+'/Organizer'
+    if not os.path.exists(dir_organizer):
+        print("aaa")
+        os.mkdir(dir_organizer)
         print("Organizer folder created. Starting...")
-        startOrganizerProcediments(directoryPath, directoryOrganizer)
+        start_organizer_procediments(dir_path, dir_organizer)
     else:
         print("Starting...")
-        startOrganizerProcediments(directoryPath, directoryOrganizer)
+        start_organizer_procediments(dir_path, dir_organizer)
 
 
-main()
+if __name__ == "__main__":
+    main()
 
 
