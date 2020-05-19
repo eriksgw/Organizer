@@ -1,11 +1,7 @@
-import pandas as pd
-from pandas import Series, DataFrame
-import matplotlib.pyplot as plt
 import os
 import re
 import sys
 import shutil
-
 
 def move_files_destiny(extensions, source_path, destiny_path):
     for ext in extensions:
@@ -42,15 +38,13 @@ def main():
     dir_path = input('Insert your directory path:')
     dir_organizer = dir_path+'/Organizer'
     if not os.path.exists(dir_organizer):
-        print("aaa")
         os.mkdir(dir_organizer)
         print("Organizer folder created. Starting...")
         start_organizer_procediments(dir_path, dir_organizer)
     else:
         print("Starting...")
         start_organizer_procediments(dir_path, dir_organizer)
-
-
+        
 if __name__ == "__main__":
     main()
 
