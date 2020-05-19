@@ -1,2 +1,2 @@
 # Organizer
-A python programm that organize a folder into a separate extensions.
+A python script that organize a folder into a separate extensions.
